@@ -8,7 +8,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "roles", uniqueConstraints = { @UniqueConstraint(columnNames = { "rol" })})
+@Table(name = "roles", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "rol" },name = "UniqueRol")
+})
 @Data
 public class Rol implements Serializable {
 

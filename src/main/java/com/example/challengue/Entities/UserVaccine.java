@@ -8,7 +8,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "users_vaccines")
+@Table(name = "users_vaccines",uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "user_id","vaccine_id" }, name = "UniqueUserAndVaccine"),
+}
+
+)
 @Data
 public class UserVaccine implements Serializable {
 

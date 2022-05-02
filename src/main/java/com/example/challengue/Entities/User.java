@@ -15,8 +15,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
-        @UniqueConstraint(columnNames = { "email" }) })
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "username" }, name = "UniqueUsername"),
+        @UniqueConstraint(columnNames = { "email" },name = "UniqueEmail")
+})
 @Data
 public class User implements Serializable {
 

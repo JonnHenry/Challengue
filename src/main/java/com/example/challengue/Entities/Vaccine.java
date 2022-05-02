@@ -10,7 +10,11 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "vaccines")
+@Table(name = "vaccines", uniqueConstraints = {
+                @UniqueConstraint(columnNames = { "VaccineName" }, name = "UniqueVaccineName"),
+        }
+
+)
 @Data
 
 public class Vaccine implements Serializable {
@@ -20,7 +24,6 @@ public class Vaccine implements Serializable {
     private Integer id;
 
     @NotNull
-    @Column(unique = true)
     private String VaccineName;
 
     @Column(columnDefinition = "boolean default true")
