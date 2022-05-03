@@ -1,11 +1,15 @@
 package com.example.challengue.Services;
 
 
-import com.example.challengue.DTO.CreateUserDTO;
+import com.example.challengue.DTO.Response.CreateUserDTO;
+import com.example.challengue.DTO.Response.UserAllDataDTO;
+import com.example.challengue.DTO.Response.UserNotVaccinetDTO;
 import com.example.challengue.DTO.UserRegisterDTO;
+import com.example.challengue.Entities.Rol;
 import com.example.challengue.Entities.User;
 
 import java.util.Date;
+import java.util.List;
 
 
 public interface IUserService /*extends UserDetailsService*/ {
@@ -16,9 +20,17 @@ public interface IUserService /*extends UserDetailsService*/ {
 
     public void deleteUserCreatedById(String userId);
 
-    public User completeUserRegistration(String username, Date birthDate, String address, String telephone);
+    public UserAllDataDTO completeUserRegistration(String username, Date birthDate, String address, String telephone);
 
     public User findUserByUsername(String username);
+
+    public List<UserAllDataDTO> getAllUsers();
+
+    public UserAllDataDTO getUserById(String id);
+
+    public List<Rol> getAllRolesByUsername(String username);
+
+    public List<Rol> appendRolByUsernameAndIdRol(String username,Integer rolId);
 
 
 

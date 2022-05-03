@@ -1,17 +1,21 @@
 package com.example.challengue.Services;
 
-import com.example.challengue.DTO.CreateUserDTO;
+import com.example.challengue.DTO.Response.CreateUserDTO;
+import com.example.challengue.DTO.Response.UserAllDataDTO;
 import com.example.challengue.DTO.UserRegisterDTO;
+import com.example.challengue.Entities.Rol;
 import com.example.challengue.Entities.User;
 import com.example.challengue.Exception.ResourceNotFoundException;
+import com.example.challengue.Repositories.RepositoryRol;
 import com.example.challengue.Repositories.RepositoryUser;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -21,6 +25,9 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private RepositoryUser repositoryUser;
+
+    @Autowired
+    private RepositoryRol repositoryRol;
 
     /*
     @Autowired
@@ -68,13 +75,13 @@ public class UserServiceImpl implements IUserService {
      * @return user Use
      */
     @Override
-    public User completeUserRegistration(String username, Date birthDate, String address, String telephone) {
+    public UserAllDataDTO completeUserRegistration(String username, Date birthDate, String address, String telephone) {
         User user = repositoryUser.findByUserName(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userName", username));
         user.setBirthDate(birthDate);
         user.setAddress(address);
         user.setTelephone(telephone);
-        return repositoryUser.save(user);
+        return mapUserToUserAllDataDTO(repositoryUser.save(user));
     }
 
     @Override
@@ -82,6 +89,41 @@ public class UserServiceImpl implements IUserService {
         User user = repositoryUser.findByUserName(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userName", username));
         return user;
+    }
+
+    @Override
+    public List<UserAllDataDTO> getAllUsers() {
+        return repositoryUser.findAll()
+                .stream()
+                .map(userData -> mapUserToUserAllDataDTO(userData))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserAllDataDTO getUserById(String id) {
+        User user = repositoryUser.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+        return mapUserToUserAllDataDTO(user);
+    }
+
+    @Override
+    public List<Rol> getAllRolesByUsername(String username) {
+        User user = repositoryUser.findByUserName(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "userName", username));
+        return (List<Rol>) user.getRoles();
+    }
+
+    @Override
+    public List<Rol> appendRolByUsernameAndIdRol(String username,Integer idRol) {
+        User user = repositoryUser.findByUserName(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "userName", username));
+        Rol rol = repositoryRol.findById(idRol)
+                .orElseThrow(() -> new ResourceNotFoundException("Rol", "idRol", idRol));
+        List<Rol> listRoles = (List<Rol>) user.getRoles();
+        listRoles.add(rol);
+        user.setRoles(listRoles);
+
+        return (List<Rol>) repositoryUser.save(user).getRoles();
     }
 
 
@@ -114,6 +156,16 @@ public class UserServiceImpl implements IUserService {
     private CreateUserDTO mapUserToCreateUserDTO(User user) {
         CreateUserDTO createUserDTO = modelMapper.map(user, CreateUserDTO.class);
         return createUserDTO;
+    }
+
+
+    /**
+     * This method map a object and returns the CreateUserDTO (Data Transfer Object)
+     * @param user The object to be maped.
+     * @return CreateUserDTO object mapped.
+     */
+    private UserAllDataDTO mapUserToUserAllDataDTO(User user) {
+        return  modelMapper.map(user, UserAllDataDTO.class);
     }
 
     /**

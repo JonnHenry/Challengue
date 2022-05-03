@@ -1,10 +1,9 @@
 package com.example.challengue.Controllers;
 
 
-import com.example.challengue.DTO.CreateUserDTO;
-import com.example.challengue.DTO.UserCompleteRegisterDTO;
-import com.example.challengue.DTO.UserRegisterDTO;
-import com.example.challengue.DTO.UsersVaccineDTO;
+import com.example.challengue.DTO.Response.UserAllDataDTO;
+import com.example.challengue.DTO.Response.UserNotVaccinetDTO;
+import com.example.challengue.DTO.UserRegisterVaccineDTO;
 import com.example.challengue.Entities.User;
 import com.example.challengue.Entities.Vaccine;
 import com.example.challengue.Services.IUserService;
@@ -13,15 +12,14 @@ import com.example.challengue.Services.IVaccineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/user_vaccine/")
+@RequestMapping("/api/user_vaccine")
 public class UserVaccineController {
 
     @Autowired
@@ -29,12 +27,48 @@ public class UserVaccineController {
     @Autowired
     private IVaccineService vaccineService;
     @Autowired
-    private IUserVaccineService iUserVaccineService;
+    private IUserVaccineService userVaccineService;
 
-    @PostMapping("/create")
-    public ResponseEntity<UsersVaccineDTO> createUserVaccine(@Valid @RequestBody UserCompleteRegisterDTO userCompleteRegisterDTO){
-        User user = userService.findUserByUsername(userCompleteRegisterDTO.getUsername());
-        Vaccine vaccine = vaccineService.getVaccineById(userCompleteRegisterDTO.getIdVaccine());
-        return new ResponseEntity<>(iUserVaccineService.createUserVaccine(user,vaccine,userCompleteRegisterDTO.getDateVaccination(),userCompleteRegisterDTO.getNumberDoses()), HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<UserRegisterVaccineDTO> createUserVaccine(@Valid @RequestBody UserRegisterVaccineDTO userRegisterVaccineDTO){
+        User user = userService.findUserByUsername(userRegisterVaccineDTO.getUsername());
+        Vaccine vaccine = vaccineService.getVaccineById(userRegisterVaccineDTO.getIdVaccine());
+        return new ResponseEntity<>(userVaccineService.createUserVaccine(user,vaccine,userRegisterVaccineDTO.getDateVaccination(),userRegisterVaccineDTO.getNumberDoses()), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{username}/{vaccine_id}")
+    public ResponseEntity<UserRegisterVaccineDTO> updateUserVaccine(@Valid @PathVariable(name = "username") String username,@Valid @PathVariable(name = "vaccine_id") Integer vaccineId, @Valid @RequestBody UserRegisterVaccineDTO userRegisterVaccineDTO){
+        User user = userService.findUserByUsername(userRegisterVaccineDTO.getUsername());
+        Vaccine vaccine = vaccineService.getVaccineById(userRegisterVaccineDTO.getIdVaccine());
+        return new ResponseEntity<>(userVaccineService.createUserVaccine(user,vaccine,userRegisterVaccineDTO.getDateVaccination(),userRegisterVaccineDTO.getNumberDoses()), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{username}/{vaccine_id}")
+    public ResponseEntity<String> deleteUserVaccine(@Valid @PathVariable(name = "username") String username,@Valid @PathVariable(name = "vaccine_id") Integer vaccineId){
+        userVaccineService.deleteUserVaccineByUsernameAndIdVaccine(username,vaccineId);
+        return new ResponseEntity<>("Registro eliminado con exito", HttpStatus.OK);
+    }
+
+    @GetMapping("/find/status")
+    public ResponseEntity<List<UserAllDataDTO>> getVaccinated(@Valid @RequestParam("is_vaccinated") Boolean isVaccinated){
+        if (isVaccinated){
+            return new ResponseEntity<>(userVaccineService.getAllUserVaccinated(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(userVaccineService.getAllUserNotVaccinated(), HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/find/vaccine")
+    public ResponseEntity<List<UserAllDataDTO>> getNameVaccinated(@Valid @RequestParam("name_vaccine") String nameVaccine){
+        return new ResponseEntity<>(userVaccineService.getUserVaccineByNameVaccine(nameVaccine), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/find/between")
+    public ResponseEntity<List<UserAllDataDTO>> getBetweenDates(@Valid @RequestParam("start_date") Date startDate,@Valid @RequestParam("end_date") Date endDate){
+        return new ResponseEntity<>(userVaccineService.getAllUserByDateRange(startDate,endDate), HttpStatus.OK);
+    }
+
+
+
 }

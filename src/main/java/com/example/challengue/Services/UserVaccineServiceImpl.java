@@ -1,8 +1,8 @@
 package com.example.challengue.Services;
 
 
-import com.example.challengue.DTO.UserNotVaccinetDTO;
-import com.example.challengue.DTO.UsersVaccineDTO;
+import com.example.challengue.DTO.Response.UserAllDataDTO;
+import com.example.challengue.DTO.UserRegisterVaccineDTO;
 import com.example.challengue.Entities.User;
 import com.example.challengue.Entities.UserVaccine;
 import com.example.challengue.Entities.Vaccine;
@@ -11,7 +11,6 @@ import com.example.challengue.Repositories.RepositoryUserVaccine;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,66 +25,66 @@ public class UserVaccineServiceImpl implements IUserVaccineService {
     private ModelMapper modelMapper;
 
     @Override
-    public UsersVaccineDTO createUserVaccine(User user, Vaccine vaccine, Date vaccinationDate, Integer numberDoses) {
+    public UserRegisterVaccineDTO createUserVaccine(User user, Vaccine vaccine, Date vaccinationDate, Integer numberDoses) {
         UserVaccine userVaccine = new UserVaccine();
         userVaccine.setVaccine(vaccine);
         userVaccine.setUser(user);
         userVaccine.setVaccinationDate(vaccinationDate);
         userVaccine.setNumberDoses(numberDoses);
-        return mapUserVaccineToUsersVaccineDTO(repositoryUserVaccine.save(userVaccine));
+        return mapUserVaccineToUserRegisterVaccineDTO(repositoryUserVaccine.save(userVaccine));
     }
 
     @Override
-    public List<UsersVaccineDTO> allUserVaccinated() {
+    public List<UserAllDataDTO> getAllUserVaccinated() {
         return repositoryUserVaccine.findDataByVaccinated()
                 .stream()
-                .map(user -> mapUserVaccineToUsersVaccineDTO(user))
+                .map(user -> mapUserToUserAllDataDTO(user))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<UserNotVaccinetDTO> allUserNotVaccinated() {
+    public List<UserAllDataDTO> getAllUserNotVaccinated() {
         return repositoryUserVaccine.findByStatusNotVaccinated()
                 .stream()
-                .map(user->mapUserToUserNotVaccinetDTO(user))
+                .map(user->mapUserToUserAllDataDTO(user))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<UsersVaccineDTO> allUserByDateRange(Date startDate, Date endDate) {
+    public List<UserAllDataDTO> getAllUserByDateRange(Date startDate, Date endDate) {
         return repositoryUserVaccine.findAllByVaccinationDateBetween(startDate,endDate)
                 .stream()
-                .map(userVaccine -> mapUserVaccineToUsersVaccineDTO(new UserVaccine()))
+                .map(userVaccine -> mapUserToUserAllDataDTO(userVaccine))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<UsersVaccineDTO> searchUserVaccineByNameVaccine(String nameVaccine) {
+    public List<UserAllDataDTO> getUserVaccineByNameVaccine(String nameVaccine) {
         return repositoryUserVaccine.findAllByVaccineVaccineName(nameVaccine)
                 .stream()
-                .map(userVaccine -> mapUserVaccineToUsersVaccineDTO(userVaccine))
+                .map(userVaccine -> mapUserToUserAllDataDTO(userVaccine))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void deleteUserVaccineById(String idUser, Integer idVaccine) {
-        UserVaccine userVaccine = repositoryUserVaccine.findByUserIdAndVaccineId(idUser,idVaccine)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "idUser idVaccine", idUser+" "+idVaccine.toString()));
-
+    public void deleteUserVaccineByUsernameAndIdVaccine(String username, Integer vaccineId) {
+        UserVaccine userVaccine = repositoryUserVaccine.findByUserUserNameAndVaccineVaccineName(username,vaccineId)
+                .orElseThrow(() -> new ResourceNotFoundException("UserVaccine", "username idVaccine", username+" "+vaccineId.toString()));
         repositoryUserVaccine.delete(userVaccine);
     }
 
-    private UsersVaccineDTO mapUserVaccineToUsersVaccineDTO (UserVaccine userVaccine){
-        return modelMapper.map(userVaccine, UsersVaccineDTO.class);
+    @Override
+    public UserVaccine getUserVaccineByUserNamedAndVaccineId(String username,Integer idVaccine) {
+        return repositoryUserVaccine.findByUserUserNameAndVaccineVaccineName(username,idVaccine)
+                .orElseThrow(() -> new ResourceNotFoundException("UserVaccine", "username idVaccine", username+" "+idVaccine.toString()));
     }
 
-
-    /**
-     * This method map a object and returns the CreateUserDTO (Data Transfer Object)
-     * @param user User The object to be maped
-     * @return UserNotVaccinetDTO
-     */
-    private UserNotVaccinetDTO mapUserToUserNotVaccinetDTO(User user) {
-        return  modelMapper.map(user, UserNotVaccinetDTO.class);
+    private UserRegisterVaccineDTO mapUserVaccineToUserRegisterVaccineDTO (UserVaccine userVaccine){
+        return modelMapper.map(userVaccine, UserRegisterVaccineDTO.class);
     }
+
+    private UserAllDataDTO mapUserToUserAllDataDTO (User userData){
+        return modelMapper.map(userData, UserAllDataDTO.class);
+    }
+
 }

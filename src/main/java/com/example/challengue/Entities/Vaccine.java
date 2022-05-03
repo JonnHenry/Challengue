@@ -47,4 +47,7 @@ public class Vaccine implements Serializable {
         updatedAt = new Date();
     }
 
+    public Vaccine() {
+        this.isActive = true;
+    }
 }

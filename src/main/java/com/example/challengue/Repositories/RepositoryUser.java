@@ -1,5 +1,6 @@
 package com.example.challengue.Repositories;
 
+import com.example.challengue.Entities.Rol;
 import com.example.challengue.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -21,5 +22,8 @@ public interface RepositoryUser extends JpaRepository<User,String> {
 
 
     public List<User> findAllByUserName(String userName);
+
+    public List<User> findAll();
+
 
 }

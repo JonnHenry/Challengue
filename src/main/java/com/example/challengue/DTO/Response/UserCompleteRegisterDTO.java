@@ -1,4 +1,4 @@
-package com.example.challengue.DTO;
+package com.example.challengue.DTO.Response;
 
 
 import lombok.Data;
@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 /**
- * This class is to create a object that carries data between processes.
+ * This class is to create an object that carries data between processes.
  * The user's complete or update the register
  * @author Jonnathan Campoberde
  * @version 1
@@ -24,13 +24,5 @@ public class UserCompleteRegisterDTO {
     private String address;
 
     private String telephone;
-
-    private boolean isVaccinated;
-
-    private Integer idVaccine;
-
-    private Date dateVaccination;
-
-    private int numberDoses;
 
 }

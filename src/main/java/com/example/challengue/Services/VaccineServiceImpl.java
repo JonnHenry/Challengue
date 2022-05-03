@@ -63,6 +63,14 @@ public class VaccineServiceImpl implements IVaccineService{
     public Vaccine getVaccineById(Integer vaccineId) {
         return respositoryVaccine.findById(vaccineId)
                 .orElseThrow(() -> new ResourceNotFoundException("Vaccine", "vaccineId", vaccineId));
+
+    }
+
+    @Override
+    public VaccineDTO getVaccineByIdDTO(Integer vaccineId) {
+        Vaccine vaccine = respositoryVaccine.findById(vaccineId)
+                .orElseThrow(() -> new ResourceNotFoundException("Vaccine", "vaccineId", vaccineId));
+        return mapVaccineToVaccineDTO(vaccine);
     }
 
 

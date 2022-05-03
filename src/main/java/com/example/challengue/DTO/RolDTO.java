@@ -6,7 +6,7 @@ import javax.validation.constraints.NotEmpty;
 
 
 /**
- * This class is to create a object that carries data between processes.
+ * This class is to create an object that carries data between processes.
  * The specific process that use this class is create a rol
  * @author Jonnathan Campoberde
  * @version 1

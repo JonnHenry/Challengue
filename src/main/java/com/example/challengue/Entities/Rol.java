@@ -34,7 +34,7 @@ public class Rol implements Serializable {
     private Date updatedAt;
 
     public Rol() {
-
+        this.isActive=true;
     }
 
     @PrePersist
@@ -49,5 +49,6 @@ public class Rol implements Serializable {
 
     public Rol(String rol) {
         this.rol = rol;
+        this.isActive = true;
     }
 }

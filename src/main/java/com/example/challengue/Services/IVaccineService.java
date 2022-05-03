@@ -19,4 +19,6 @@ public interface IVaccineService {
 
     public Vaccine getVaccineById(Integer vaccineId);
 
+    public VaccineDTO getVaccineByIdDTO(Integer vaccineId);
+
 }

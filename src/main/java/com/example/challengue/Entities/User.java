@@ -63,8 +63,11 @@ public class User implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
+            uniqueConstraints = {
+                    @UniqueConstraint(columnNames = { "user_id","rol_id" }, name = "UniqueUsername")},
             joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "rol_id",referencedColumnName = "id")
+            inverseJoinColumns = @JoinColumn(name = "rol_id",referencedColumnName = "id"
+            )
     )
     private Collection<Rol> roles = new HashSet<>();
 
@@ -87,6 +90,7 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.isActive = true;
     }
 
     public User(String names, String surnames, String email, String password, Collection<Rol> roles) {
@@ -96,6 +100,7 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.isActive = true;
     }
 
 
@@ -106,10 +111,11 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.isActive = true;
     }
 
     public User(){
-
+        this.isActive = true;
     }
 
     @PrePersist
