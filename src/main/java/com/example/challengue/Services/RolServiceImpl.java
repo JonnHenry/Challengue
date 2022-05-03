@@ -1,12 +1,12 @@
 package com.example.challengue.Services;
 
-import com.developer.kruger.DTO.RolDTO;
-import com.developer.kruger.Entities.Rol;
-import com.developer.kruger.Exception.ResourceNotFoundException;
-import com.developer.kruger.Repositories.RepositoryRol;
+import com.example.challengue.DTO.RolDTO;
+import com.example.challengue.Entities.Rol;
+import com.example.challengue.Repositories.RepositoryRol;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.challengue.Exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +41,7 @@ public class RolServiceImpl implements IRolService{
      */
     @Override
     public RolDTO updateRol(RolDTO rolDTO, Integer idRol) {
-        Rol rol = repositoryRol.findByidRol(idRol)
+        Rol rol = repositoryRol.findById(idRol)
                 .orElseThrow(() -> new ResourceNotFoundException("Rol", "idRol", idRol));
 
         return mapDTO(rol);
@@ -65,7 +65,7 @@ public class RolServiceImpl implements IRolService{
      */
     @Override
     public RolDTO searchRolById(Integer idRol) {
-        Rol rol = repositoryRol.findByidRol(idRol)
+        Rol rol = repositoryRol.findById(idRol)
                 .orElseThrow(() -> new ResourceNotFoundException("Rol", "idRol", idRol));
 
         return mapDTO(rol);
@@ -92,7 +92,7 @@ public class RolServiceImpl implements IRolService{
      */
     @Override
     public void deleteRolById(Integer roleId) {
-        Rol rol = repositoryRol.findByidRol(roleId)
+        Rol rol = repositoryRol.findById(roleId)
                 .orElseThrow(() -> new ResourceNotFoundException("Rol", "idRol", roleId));
         repositoryRol.delete(rol);
     }

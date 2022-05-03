@@ -1,14 +1,13 @@
 package com.example.challengue.Services;
 
 
-import com.developer.kruger.DTO.*;
-import com.developer.kruger.DTO.UserNotVaccinetDTO;
-import com.developer.kruger.DTO.UsersVaccineDTO;
-import com.developer.kruger.Entities.User;
-import com.developer.kruger.Entities.UserVaccine;
-import com.developer.kruger.Entities.Vaccine;
-import com.developer.kruger.Exception.ResourceNotFoundException;
-import com.developer.kruger.Repositories.RepositoryUserVaccine;
+import com.example.challengue.DTO.UserNotVaccinetDTO;
+import com.example.challengue.DTO.UsersVaccineDTO;
+import com.example.challengue.Entities.User;
+import com.example.challengue.Entities.UserVaccine;
+import com.example.challengue.Entities.Vaccine;
+import com.example.challengue.Exception.ResourceNotFoundException;
+import com.example.challengue.Repositories.RepositoryUserVaccine;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,7 @@ public class UserVaccineServiceImpl implements IUserVaccineService {
 
     @Override
     public List<UsersVaccineDTO> allUserVaccinated() {
-        return repositoryUserVaccine.findByStatusVaccinated()
+        return repositoryUserVaccine.findDataByVaccinated()
                 .stream()
                 .map(user -> mapUserVaccineToUsersVaccineDTO(user))
                 .collect(Collectors.toList());
@@ -70,7 +69,7 @@ public class UserVaccineServiceImpl implements IUserVaccineService {
 
     @Override
     public void deleteUserVaccineById(String idUser, Integer idVaccine) {
-        UserVaccine userVaccine = repositoryUserVaccine.findByUserIdAndVaccineVaccineId(idUser,idVaccine)
+        UserVaccine userVaccine = repositoryUserVaccine.findByUserIdAndVaccineId(idUser,idVaccine)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "idUser idVaccine", idUser+" "+idVaccine.toString()));
 
         repositoryUserVaccine.delete(userVaccine);

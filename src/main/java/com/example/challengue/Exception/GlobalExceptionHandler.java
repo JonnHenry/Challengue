@@ -1,7 +1,7 @@
 package com.example.challengue.Exception;
 
 
-import com.developer.kruger.DTO.DetailErrorDTO;
+import com.example.challengue.DTO.DetailErrorDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

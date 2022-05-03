@@ -1,12 +1,13 @@
 package com.example.challengue.Services;
 
-import com.developer.kruger.DTO.VaccineDTO;
-import com.developer.kruger.Entities.Vaccine;
-import com.developer.kruger.Exception.ResourceNotFoundException;
-import com.developer.kruger.Repositories.RepositoryVaccine;
+
+import com.example.challengue.DTO.VaccineDTO;
+import com.example.challengue.Entities.Vaccine;
+import com.example.challengue.Repositories.RepositoryVaccine;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.challengue.Exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,7 +54,7 @@ public class VaccineServiceImpl implements IVaccineService{
 
     @Override
     public Vaccine getVaccineByVaccineName(String vaccineName) {
-        return respositoryVaccine.findByNameVaccine(vaccineName)
+        return respositoryVaccine.findByVaccineName(vaccineName)
                 .orElseThrow(() -> new ResourceNotFoundException("Vaccine", "vaccineName", vaccineName));
 
     }

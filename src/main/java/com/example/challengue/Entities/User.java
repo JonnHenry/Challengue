@@ -41,14 +41,12 @@ public class User implements Serializable {
     private String email;
 
 
-    @Column(nullable = false)
     private Date birthDate;
 
-    @NotNull
+
     private String address;
 
 
-    @Column(nullable = false)
     private String telephone;
 
     @NotNull

@@ -1,9 +1,9 @@
 package com.example.challengue.Services;
 
-import com.developer.kruger.DTO.UserNotVaccinetDTO;
-import com.developer.kruger.DTO.UsersVaccineDTO;
-import com.developer.kruger.Entities.User;
-import com.developer.kruger.Entities.Vaccine;
+import com.example.challengue.DTO.UserNotVaccinetDTO;
+import com.example.challengue.DTO.UsersVaccineDTO;
+import com.example.challengue.Entities.User;
+import com.example.challengue.Entities.Vaccine;
 
 import java.util.Date;
 import java.util.List;

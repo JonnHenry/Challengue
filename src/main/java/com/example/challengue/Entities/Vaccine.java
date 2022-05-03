@@ -24,7 +24,7 @@ public class Vaccine implements Serializable {
     private Integer id;
 
     @NotNull
-    private String VaccineName;
+    private String vaccineName;
 
     @Column(columnDefinition = "boolean default true")
     private Boolean isActive;

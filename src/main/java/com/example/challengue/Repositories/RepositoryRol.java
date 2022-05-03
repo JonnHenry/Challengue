@@ -1,6 +1,6 @@
 package com.example.challengue.Repositories;
 
-import com.developer.kruger.Entities.Rol;
+import com.example.challengue.Entities.Rol;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ public interface RepositoryRol extends JpaRepository<Rol,Integer> {
 
     public Optional<Rol> findByRol(String rol);
 
-    public Optional<Rol> findByidRol(Integer idRol);
+    public Optional<Rol> findById(Integer idRol);
 
     public List<Rol> findByRolAndIsActive(String rol, boolean isActive);
 

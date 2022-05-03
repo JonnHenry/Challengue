@@ -1,14 +1,14 @@
 package com.example.challengue.Services;
 
-import com.developer.kruger.DTO.CreateUserDTO;
-import com.developer.kruger.DTO.UserRegisterDTO;
-import com.developer.kruger.Entities.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
+
+import com.example.challengue.DTO.CreateUserDTO;
+import com.example.challengue.DTO.UserRegisterDTO;
+import com.example.challengue.Entities.User;
 
 import java.util.Date;
 
 
-public interface IUserService extends UserDetailsService {
+public interface IUserService /*extends UserDetailsService*/ {
 
     public CreateUserDTO createUser(UserRegisterDTO userRegisterDTO);
 

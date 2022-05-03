@@ -1,7 +1,7 @@
 package com.example.challengue.Services;
 
-import com.developer.kruger.DTO.VaccineDTO;
-import com.developer.kruger.Entities.Vaccine;
+import com.example.challengue.DTO.VaccineDTO;
+import com.example.challengue.Entities.Vaccine;
 
 import java.util.List;
 
