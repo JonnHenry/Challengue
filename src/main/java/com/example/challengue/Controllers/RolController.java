@@ -22,9 +22,8 @@ public class RolController {
     @Autowired
     private IRolService rolService;
 
-
     @PostMapping("/create")
-    public ResponseEntity<RolDTO> createUser(@Valid @RequestBody RolDTO rolDTO){
+    public ResponseEntity<RolDTO> createRol(@Valid @RequestBody RolDTO rolDTO){
         return new ResponseEntity<>(rolService.createRol(rolDTO), HttpStatus.CREATED);
     }
 

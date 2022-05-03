@@ -24,7 +24,7 @@ public class VaccineController {
     private IVaccineService vaccineService;
 
     @PostMapping("/create")
-    public ResponseEntity<VaccineDTO> createUser(@Valid @RequestBody VaccineDTO vaccineDTO){
+    public ResponseEntity<VaccineDTO> createVaccine(@Valid @RequestBody VaccineDTO vaccineDTO){
         return new ResponseEntity<>(vaccineService.createVaccine(vaccineDTO), HttpStatus.CREATED);
     }
 }

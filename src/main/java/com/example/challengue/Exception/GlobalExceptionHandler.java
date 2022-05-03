@@ -26,21 +26,21 @@ import java.util.Map;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<DetailErrorDTO> manejarResourceNotFoundException(ResourceNotFoundException exception, WebRequest webRequest){
-        DetailErrorDTO errorDetalles = new DetailErrorDTO(new Date(),exception.getMessage(), webRequest.getDescription(false));
-        return new ResponseEntity<>(errorDetalles, HttpStatus.NOT_FOUND);
+    public ResponseEntity<DetailErrorDTO> manageResourceNotFoundException(ResourceNotFoundException exception, WebRequest webRequest){
+        DetailErrorDTO errorDetail = new DetailErrorDTO(new Date(),exception.getMessage(), webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ControlVaccinesException.class)
-    public ResponseEntity<DetailErrorDTO> manejarBlogAppException(ControlVaccinesException exception, WebRequest webRequest){
-        DetailErrorDTO errorDetalles = new DetailErrorDTO(new Date(),exception.getMessage(), webRequest.getDescription(false));
-        return new ResponseEntity<>(errorDetalles,HttpStatus.BAD_REQUEST);
+    public ResponseEntity<DetailErrorDTO> manageUserVaccinesAppException(ControlVaccinesException exception, WebRequest webRequest){
+        DetailErrorDTO errorDetails = new DetailErrorDTO(new Date(),exception.getMessage(), webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails,HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<DetailErrorDTO> manejarGlobalException(Exception exception, WebRequest webRequest){
-        DetailErrorDTO errorDetalles = new DetailErrorDTO(new Date(),exception.getMessage(), webRequest.getDescription(false));
-        return new ResponseEntity<>(errorDetalles,HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<DetailErrorDTO> manageGlobalException(Exception exception, WebRequest webRequest){
+        DetailErrorDTO errorDetails = new DetailErrorDTO(new Date(),exception.getMessage(), webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override

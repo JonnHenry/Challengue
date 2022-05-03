@@ -77,6 +77,13 @@ public class UserServiceImpl implements IUserService {
         return repositoryUser.save(user);
     }
 
+    @Override
+    public User findUserByUsername(String username) {
+        User user = repositoryUser.findByUserName(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "userName", username));
+        return user;
+    }
+
 
     /**
      * This method map the roles of a user in a collection

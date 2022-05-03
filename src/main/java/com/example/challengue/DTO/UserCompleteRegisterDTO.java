@@ -16,8 +16,8 @@ import java.util.Date;
 @Data
 public class UserCompleteRegisterDTO {
 
-    @NotEmpty(message = "La cédula no puede estar vacia o nula")
-    private String Id;
+    @NotEmpty(message = "El nombre de usurio ni puede ser vacio")
+    private String username;
 
     private Date birthDate;
 
@@ -27,7 +27,7 @@ public class UserCompleteRegisterDTO {
 
     private boolean isVaccinated;
 
-    private String nameVaccine;
+    private Integer idVaccine;
 
     private Date dateVaccination;
 

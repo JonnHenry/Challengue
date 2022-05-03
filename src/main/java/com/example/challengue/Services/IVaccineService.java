@@ -17,4 +17,6 @@ public interface IVaccineService {
 
     public Vaccine getVaccineByVaccineName(String vaccineName);
 
+    public Vaccine getVaccineById(Integer vaccineId);
+
 }

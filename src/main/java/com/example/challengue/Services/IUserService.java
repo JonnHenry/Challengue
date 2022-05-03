@@ -16,7 +16,9 @@ public interface IUserService /*extends UserDetailsService*/ {
 
     public void deleteUserCreatedById(String userId);
 
-    User completeUserRegistration(String username, Date birthDate, String address, String telephone);
+    public User completeUserRegistration(String username, Date birthDate, String address, String telephone);
+
+    public User findUserByUsername(String username);
 
 
 
