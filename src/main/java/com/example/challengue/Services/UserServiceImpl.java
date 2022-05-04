@@ -82,10 +82,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<UserAllDataDTO> getAllUsers() {
-        return repositoryUser.findAll()
+        List<UserAllDataDTO> users = repositoryUser.findAll()
                 .stream()
-                .map(userData -> mapUserToUserAllDataDTO(userData))
+                .map(user -> mapUserToUserAllDataDTO(user))
                 .collect(Collectors.toList());
+
+        return users;
     }
 
     @Override
@@ -154,6 +156,7 @@ public class UserServiceImpl implements IUserService {
      * @return CreateUserDTO object mapped.
      */
     private UserAllDataDTO mapUserToUserAllDataDTO(User user) {
+
         return  modelMapper.map(user, UserAllDataDTO.class);
     }
 
@@ -189,7 +192,7 @@ public class UserServiceImpl implements IUserService {
 
     private String generateUserName(String email){
         String userName = email.trim().toLowerCase().substring(0,email.indexOf("@"));
-        System.out.println(userName);
+
         Integer numUsersBySameName = numUserBySameUserName(userName)+1;
         if (numUsersBySameName==1){
             return userName;

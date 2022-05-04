@@ -51,14 +51,14 @@ public class CreateRoles implements CommandLineRunner {
 
         User user = new User();
         user.setId("0105476097");
-        user.setNames("0105476097".toUpperCase());
+        user.setNames("Jonnathan Campoberde".toUpperCase());
         user.setSurnames("Campoberde Avila".toUpperCase());
         user.setEmail("jonnathancampoberde@gmail.com");
         user.setUserName(generateUserName("jonnathancampoberde@gmail.com"));
         user.setPassword(passwordEncoder.encode("0105476097"));
 
-        Rol roles = rolRepository.findByRol("USER")
-                .orElseThrow(() -> new ResourceNotFoundException("Rol", "rol", "USER"));
+        Rol roles = rolRepository.findByRol("ADMIN")
+                .orElseThrow(() -> new ResourceNotFoundException("Rol", "rol", "ADMIN"));
         user.setRoles(Collections.singleton(roles));
         userRepository.save(user);
     }
