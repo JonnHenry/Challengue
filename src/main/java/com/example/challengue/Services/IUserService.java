@@ -14,7 +14,6 @@ import java.util.List;
 
 public interface IUserService /*extends UserDetailsService*/ {
 
-    public CreateUserDTO createUser(UserRegisterDTO userRegisterDTO);
 
     UserRegisterDTO updateCreateUser(UserRegisterDTO userRegisterDTO, String userId);
 

@@ -13,6 +13,7 @@ import com.example.challengue.Services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,22 +26,6 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
-
-    @PostMapping
-    public ResponseEntity<CreateUserDTO> createUser(@Valid @RequestBody UserRegisterDTO userRegisterDTO){
-        return new ResponseEntity<>(userService.createUser(userRegisterDTO), HttpStatus.CREATED);
-    }
-
-    @PostMapping("/complete_registry")
-    public ResponseEntity<UserAllDataDTO> completeProcessRegistration(@Valid @RequestBody UserCompleteRegisterDTO userCompleteRegisterDTO){
-        return new ResponseEntity<>(
-                userService.completeUserRegistration(
-                        userCompleteRegisterDTO.getUsername(),
-                        userCompleteRegisterDTO.getBirthDate(),
-                        userCompleteRegisterDTO.getAddress(),
-                        userCompleteRegisterDTO.getTelephone()),
-                HttpStatus.CREATED);
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserRegisterDTO> updateUser(@Valid @PathVariable(name = "id") String id, @Valid @RequestBody UserRegisterDTO userRegisterDTO){
@@ -63,22 +48,25 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<UserAllDataDTO> getUserById(@Valid @PathVariable(name = "id") String id){
         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@Valid @PathVariable(name = "id") String id){
         userService.deleteUserCreatedById(id);
         return new ResponseEntity<>("Usurio: "+ id +" eliminado exitosamente", HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/rol")
     public ResponseEntity<List<Rol>> appendRol(@Valid @RequestBody CreateRolDTO createRolDTO) {
         return new ResponseEntity<>(userService.appendRolByUsernameAndIdRol(createRolDTO.getUsername(), createRolDTO.getIdRol()), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/rol/{username}")
     public ResponseEntity<List<Rol>> getAlldRoles(@Valid @PathVariable(name = "username") String username ) {
         return new ResponseEntity<>(userService.getAllRolesByUsername(username), HttpStatus.OK);

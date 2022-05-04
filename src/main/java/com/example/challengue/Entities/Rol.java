@@ -28,12 +28,11 @@ public class Rol implements Serializable {
     private Boolean isActive;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
+    @Column( nullable = false)
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @UpdateTimestamp
-    @Column( insertable = false, updatable = false)
+    @Column(nullable = false)
     private Date updatedAt;
 
     public Rol() {
@@ -52,6 +51,5 @@ public class Rol implements Serializable {
 
     public Rol(String rol) {
         this.rol = rol;
-        this.isActive = true;
     }
 }

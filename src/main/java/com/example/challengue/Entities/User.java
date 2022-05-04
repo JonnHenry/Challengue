@@ -68,7 +68,7 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "rol_id",referencedColumnName = "id")
             )
 
-    private Set<Rol> roles = new HashSet<>();;
+    private Set<Rol> roles = new HashSet<>();
 
     /*OneToMany(mappedBy = "user")
     private Set<UserVaccine> userVaccines;*/

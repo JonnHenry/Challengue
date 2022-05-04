@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -34,20 +35,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;*/
 
-    @Override
-    public CreateUserDTO createUser(UserRegisterDTO userRegisterDTO) {
-        User user = new User();
-        user.setId(userRegisterDTO.getId());
-        user.setNames(userRegisterDTO.getNames().toUpperCase());
-        user.setSurnames(userRegisterDTO.getSurnames().toUpperCase());
-        user.setEmail(userRegisterDTO.getEmail());
-        //user.setRoles(Arrays.asList(new Rol("ROLE_USER"))); //By defult to all users
-        user.setUserName(generateUserName(userRegisterDTO.getEmail()));
-        user.setPassword(userRegisterDTO.getId());
-        User newUser = repositoryUser.save(user);
-        newUser.setPassword(userRegisterDTO.getId());
-        return  mapUserToCreateUserDTO(newUser);
-    }
+
 
     @Override
     public UserRegisterDTO updateCreateUser(UserRegisterDTO userRegisterDTO, String userId) {
@@ -111,7 +99,7 @@ public class UserServiceImpl implements IUserService {
     public List<Rol> getAllRolesByUsername(String username) {
         User user = repositoryUser.findByUserName(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userName", username));
-        return (List<Rol>) user.getRoles();
+        return new ArrayList<>(repositoryUser.save(user).getRoles());
     }
 
     @Override
@@ -120,11 +108,11 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userName", username));
         Rol rol = repositoryRol.findById(idRol)
                 .orElseThrow(() -> new ResourceNotFoundException("Rol", "idRol", idRol));
-        List<Rol> listRoles = (List<Rol>) user.getRoles();
+        var listRoles = (Set<Rol>) user.getRoles();
         listRoles.add(rol);
-        user.setRoles((Set<Rol>) listRoles);
+        user.setRoles(listRoles);
 
-        return (List<Rol>) repositoryUser.save(user).getRoles();
+        return new ArrayList<>(repositoryUser.save(user).getRoles());
     }
 
 

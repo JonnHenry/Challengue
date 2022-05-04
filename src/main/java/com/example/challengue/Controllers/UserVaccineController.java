@@ -12,6 +12,7 @@ import com.example.challengue.Services.IVaccineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -49,6 +50,7 @@ public class UserVaccineController {
         return new ResponseEntity<>("Registro eliminado con exito", HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/find/status")
     public ResponseEntity<List<UserAllDataDTO>> getVaccinated(@Valid @RequestParam("is_vaccinated") Boolean isVaccinated){
         if (isVaccinated){
@@ -58,12 +60,14 @@ public class UserVaccineController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/find/vaccine")
     public ResponseEntity<List<UserAllDataDTO>> getNameVaccinated(@Valid @RequestParam("name_vaccine") String nameVaccine){
         return new ResponseEntity<>(userVaccineService.getUserVaccineByNameVaccine(nameVaccine), HttpStatus.OK);
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/find/between")
     public ResponseEntity<List<UserAllDataDTO>> getBetweenDates(@Valid @RequestParam("start_date") Date startDate,@Valid @RequestParam("end_date") Date endDate){
         return new ResponseEntity<>(userVaccineService.getAllUserByDateRange(startDate,endDate), HttpStatus.OK);
