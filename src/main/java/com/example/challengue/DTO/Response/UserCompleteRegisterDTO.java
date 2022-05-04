@@ -1,7 +1,9 @@
 package com.example.challengue.DTO.Response;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
@@ -19,10 +21,13 @@ public class UserCompleteRegisterDTO {
     @NotEmpty(message = "El nombre de usurio ni puede ser vacio")
     private String username;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private Date birthDate;
 
     private String address;
 
     private String telephone;
+
 
 }

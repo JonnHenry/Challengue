@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -121,7 +122,7 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(() -> new ResourceNotFoundException("Rol", "idRol", idRol));
         List<Rol> listRoles = (List<Rol>) user.getRoles();
         listRoles.add(rol);
-        user.setRoles(listRoles);
+        user.setRoles((Set<Rol>) listRoles);
 
         return (List<Rol>) repositoryUser.save(user).getRoles();
     }

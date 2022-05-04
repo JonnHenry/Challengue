@@ -7,31 +7,41 @@ CREATE TABLE IF NOT EXISTS public.roles
     updated_at timestamp without time zone NOT NULL,
     CONSTRAINT roles_pkey PRIMARY KEY (id),
     CONSTRAINT uniquerol UNIQUE (rol)
+)
+WITH (
+    OIDS = FALSE
 );
 
 CREATE TABLE IF NOT EXISTS public.users
 (
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
     address character varying(255) COLLATE pg_catalog."default",
-    birth_date timestamp without time zone NOT NULL,
+    birth_date timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     email character varying(255) COLLATE pg_catalog."default" NOT NULL,
     is_active boolean DEFAULT true,
     names character varying(255) COLLATE pg_catalog."default" NOT NULL,
     password character varying(255) COLLATE pg_catalog."default" NOT NULL,
     surnames character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    telephone character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    telephone character varying(255) COLLATE pg_catalog."default",
     updated_at timestamp without time zone NOT NULL,
     user_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT users_pkey PRIMARY KEY (id),
     CONSTRAINT uniqueemail UNIQUE (email),
     CONSTRAINT uniqueusername UNIQUE (user_name)
+)
+WITH (
+    OIDS = FALSE
 );
 
 CREATE TABLE IF NOT EXISTS public.users_roles
 (
     user_id character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    rol_id integer NOT NULL
+    rol_id integer NOT NULL,
+    CONSTRAINT users_roles_pkey PRIMARY KEY (user_id, rol_id)
+)
+WITH (
+    OIDS = FALSE
 );
 
 CREATE TABLE IF NOT EXISTS public.users_vaccines
@@ -43,17 +53,23 @@ CREATE TABLE IF NOT EXISTS public.users_vaccines
     updated_at timestamp without time zone NOT NULL,
     vaccination_date timestamp without time zone,
     CONSTRAINT users_vaccines_pkey PRIMARY KEY (user_id, vaccine_id)
+)
+WITH (
+    OIDS = FALSE
 );
 
 CREATE TABLE IF NOT EXISTS public.vaccines
 (
     id integer NOT NULL DEFAULT nextval('vaccines_id_seq'::regclass),
-    vaccine_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     created_at timestamp without time zone NOT NULL,
     is_active boolean DEFAULT true,
     updated_at timestamp without time zone NOT NULL,
+    vaccine_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT vaccines_pkey PRIMARY KEY (id),
     CONSTRAINT uniquevaccinename UNIQUE (vaccine_name)
+)
+WITH (
+    OIDS = FALSE
 );
 
 ALTER TABLE IF EXISTS public.users_roles

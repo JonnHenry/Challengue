@@ -1,6 +1,8 @@
 package com.example.challengue.Entities;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,11 +28,12 @@ public class Rol implements Serializable {
     private Boolean isActive;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column( nullable = false)
+    @CreationTimestamp
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
+    @UpdateTimestamp
+    @Column( insertable = false, updatable = false)
     private Date updatedAt;
 
     public Rol() {

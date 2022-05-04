@@ -19,7 +19,7 @@ public class RolController {
     @Autowired
     private IRolService rolService;
 
-    @PostMapping
+    @PostMapping(value = "rol")
     public ResponseEntity<RolDTO> createRol(@Valid @RequestBody RolDTO rolDTO){
         return new ResponseEntity<>(rolService.createRol(rolDTO), HttpStatus.CREATED);
     }

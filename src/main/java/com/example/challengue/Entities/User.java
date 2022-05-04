@@ -3,13 +3,14 @@ package com.example.challengue.Entities;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
+import org.hibernate.annotations.Type;
+import org.hibernate.mapping.Collection;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,7 +41,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String email;
 
-
+    @Type(type="date")
     private Date birthDate;
 
 
@@ -63,13 +64,11 @@ public class User implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
-            uniqueConstraints = {
-                    @UniqueConstraint(columnNames = { "user_id","rol_id" }, name = "UniqueUsername")},
             joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "rol_id",referencedColumnName = "id"
+            inverseJoinColumns = @JoinColumn(name = "rol_id",referencedColumnName = "id")
             )
-    )
-    private Collection<Rol> roles = new HashSet<>();
+
+    private Set<Rol> roles = new HashSet<>();;
 
     /*OneToMany(mappedBy = "user")
     private Set<UserVaccine> userVaccines;*/
@@ -82,7 +81,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private Date updatedAt;
 
-    public User(String id, String names, String surnames, String email, String password, Collection<Rol> roles) {
+    public User(String id, String names, String surnames, String email, String password, Set<Rol> roles) {
         super();
         this.id = id;
         this.names = names;
@@ -93,7 +92,7 @@ public class User implements Serializable {
         this.isActive = true;
     }
 
-    public User(String names, String surnames, String email, String password, Collection<Rol> roles) {
+    public User(String names, String surnames, String email, String password, Set<Rol> roles) {
         super();
         this.names = names;
         this.surnames = surnames;
@@ -104,7 +103,7 @@ public class User implements Serializable {
     }
 
 
-    public User(String email, String password, Collection<Rol> roles) {
+    public User(String email, String password, Set<Rol> roles) {
         super();
         this.names = names;
         this.surnames = surnames;
@@ -116,6 +115,10 @@ public class User implements Serializable {
 
     public User(){
         this.isActive = true;
+    }
+
+    public void setRoles(Set<Rol> roles) {
+        this.roles = roles;
     }
 
     @PrePersist
